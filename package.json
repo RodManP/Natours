@@ -14,7 +14,9 @@
     "express": "^4.18.1",
     "mongoose": "^5.13.14",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "slugify": "^1.6.5",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^8.17.0",
@@ -27,5 +29,7 @@
     "eslint-plugin-react": "^7.30.0",
     "prettier": "^2.6.2"
   },
-  "engines": {"node": ">=10"}
+  "engines": {
+    "node": ">=10"
+  }
 }
