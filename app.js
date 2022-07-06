@@ -15,7 +15,15 @@ const reviewRouter = require('./routes/reviewRoutes');
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
 // 1 GLOBAL MIDDLEWARES
+
+//SERVING STATIC FILES
+// app.use(express.static(`${__dirname}/public`))
+app.use(express.static(path.join(__dirname, 'public')));
+
 // SET SECURITY HTPP HEADER
 app.use(helmet());
 
@@ -55,10 +63,6 @@ app.use(
   })
 );
 
-//SERVING STATIC FILES
-// app.use(express.static(`${__dirname}/public`))
-app.use(express.static(path.join(__dirname, 'public')));
-
 // app.use((req, res, next) => {
 //   console.log('hello from the middleware');
 //   next();
@@ -71,6 +75,27 @@ app.use((req, res, next) => {
 });
 
 // 2 ROUTES
+app.get('/', (req, res) => {
+  // res.set('Content-Security-Policy', "default-src 'self'");
+  // res.set('Content-Type', 'text/html');
+  res.status(200).render('base', {
+    tour: 'The Forest Hiker',
+    user: 'Jonas',
+  });
+});
+
+app.get('/overview', (req, res) => {
+  res.status(200).render('overview', {
+    title: 'All Tours',
+  });
+});
+
+app.get('/tour', (req, res) => {
+  res.status(200).render('tour', {
+    title: 'The Forest Hike',
+  });
+});
+
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
