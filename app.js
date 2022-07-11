@@ -45,77 +45,6 @@ app.use(
   })
 );
 
-
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     directives: {
-//       defaultSrc: ["'self'", 'data:', 'blob:'],
-//       baseUri: ["'self'"],
-//       fontSrc: ["'self'", 'https:', 'data:'],
-//       // scriptSrc: ["'self'", 'https://*.cloudflare.com'],
-//       // scriptSrc: ["'self'", 'https://*.stripe.com'],
-//       scriptSrc: ["'self'", 'https://*.mapbox.com'],
-//       frameSrc: ["'self'", 'https://*.stripe.com'],
-//       objectSrc: ["'none'"],
-//       styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-//       workerSrc: ["'self'", 'data:', 'blob:'],
-//       childSrc: ["'self'", 'blob:'],
-//       imgSrc: ["'self'", 'data:', 'blob:'],
-//       connectSrc: ["'self'", 'blob:', 'https://*.mapbox.com'],
-//       upgradeInsecureRequests: [],
-//     },
-//   })
-// );
-
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         defaultSrc: ["'self'", 'data:', 'blob:', 'https:', 'ws:'],
-//         baseUri: ["'self'"],
-//         fontSrc: ["'self'", 'https:', 'data:'],
-//         scriptSrc: [
-//           "'self'",
-//           'https:',
-//           'http:',
-//           'blob:',
-//           'https://*.mapbox.com',
-//           'https://js.stripe.com',
-//           'https://m.stripe.network',
-//           'https://*.cloudflare.com',
-//         ],
-//         frameSrc: ["'self'", 'https://js.stripe.com'],
-//         objectSrc: ["'none'"],
-//         styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-//         workerSrc: [
-//           "'self'",
-//           'data:',
-//           'blob:',
-//           'https://*.tiles.mapbox.com',
-//           'https://api.mapbox.com',
-//           'https://events.mapbox.com',
-//           'https://m.stripe.network',
-//         ],
-//         childSrc: ["'self'", 'blob:'],
-//         imgSrc: ["'self'", 'data:', 'blob:'],
-//         formAction: ["'self'"],
-//         connectSrc: [
-//           "'self'",
-//           "'unsafe-inline'",
-//           'data:',
-//           'blob:',
-//           'https://*.stripe.com',
-//           'https://*.mapbox.com',
-//           'https://*.cloudflare.com/',
-//           'https://bundle.js:*',
-//           'ws://127.0.0.1:*/',
-//         ],
-//         upgradeInsecureRequests: [],
-//       },
-//     },
-//   })
-// );
-
 //DEVELOPMENT LOGGING
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -131,6 +60,8 @@ app.use('/api', limiter);
 
 //BODY PARSER, reading and limiting the data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
+
+app.use(express.urlencoded({ extended: true, limit: '10kb' }))
 
 app.use(cookieParser());
 
