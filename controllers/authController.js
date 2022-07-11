@@ -113,6 +113,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   // False means no change in password
   // Grant access to protected routes
   req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 
