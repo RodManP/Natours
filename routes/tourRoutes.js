@@ -10,6 +10,8 @@ const {
   getMonthlyPlan,
   getToursWithing,
   getDistances,
+  uploadTourImages,
+  resizeTourImages,
   // checkId,
   // checkBody,
 } = require('../controllers/tourController');
@@ -47,7 +49,13 @@ router
 router
   .route('/:id')
   .get(getTour)
-  .patch(protect, restrictTo('admin', 'lead-guide'), updateTour)
+  .patch(
+    protect,
+    restrictTo('admin', 'lead-guide'),
+    uploadTourImages,
+    resizeTourImages,
+    updateTour
+  )
   .delete(protect, restrictTo('admin', 'lead-guide'), deleteTour);
 
 // router
