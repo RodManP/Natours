@@ -14,8 +14,16 @@ module.exports = class Email {
   newTransport() {
     if (process.env.NODE_ENV === 'production') {
       //send grid email
-      return 1;
+      // return nodemailer.createTransport({
+      //   service: 'SendGrid',
+      //   auth: {
+      //     user: process.env.SENDGRID_USERNAME,
+      //     pass: process.env.SENDGRID_PASSWORD,
+      //   },
+      // });
+      return 1
     }
+
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       PORT: process.env.EMAIL_PORT,
@@ -53,5 +61,9 @@ module.exports = class Email {
 
   async sendWelcome() {
     await this.send('welcome', 'Welcome to Natours');
+  }
+
+  async sendPasswordReset() {
+    await this.send('passwordReset', 'Your password reset token');
   }
 };

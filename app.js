@@ -13,6 +13,7 @@ const globalErrorHandler = require('./controllers/errorController');
 const tourRouter = require('./routes/tourRoutes');
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
+const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
@@ -28,7 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // SET SECURITY HTPP HEADER
 // app.use(helmet());
-
 
 app.use(
   helmet({
@@ -61,7 +61,7 @@ app.use('/api', limiter);
 //BODY PARSER, reading and limiting the data from the body into req.body
 app.use(express.json({ limit: '10kb' }));
 
-app.use(express.urlencoded({ extended: true, limit: '10kb' }))
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 
 app.use(cookieParser());
 
@@ -103,17 +103,9 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 app.all('*', (req, res, next) => {
-  // res.status(404).json({
-  //   status: 'fail',
-  //   message: `can not find ${req.originalUrl}`,
-  // });
-
-  // const err = new Error(`can not find ${req.originalUrl}`);
-  // err.status = 'fail';
-  // err.statusCode = 404;
-
   next(new AppError(`can not find ${req.originalUrl}`, 404));
 });
 
