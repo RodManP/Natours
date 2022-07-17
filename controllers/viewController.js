@@ -1,5 +1,6 @@
 const Tour = require('../models/tourModel');
-const User = require('../models/userModel')
+const User = require('../models/userModel');
+const Booking = require('../models/bookingModel');
 const catchAsync = require('../utils/catchAsync');
 const AppError = require('../utils/appError');
 
@@ -56,16 +57,33 @@ exports.getAccount = (req, res) => {
   });
 };
 
-exports.updateUserData = catchAsync( async (req, res, next) => {
-   const updatedUser = await User.findByIdAndUpdate(req.user.id, {
-    name: req.body.name,
-    email: req.body.email,
-  },{
-    new: true,
-    runValidators: true,
-  })
-   res.status(200).render('account', {
-     title: 'Your Account',
-     user: updatedUser,
-   });
+exports.getMyTour = catchAsync(async (req, res) => {
+  // 1 find all bookings for the current user
+  const bookings = await Booking.find({ user: req.user.id });
+
+  // find tours for those bookings
+  const tourIds = bookings.map((booking) => booking.tour);
+  const tours = await Tour.find({ _id: { $in: tourIds } });
+  res.status(200).render('overview', {
+    title: 'My Booked Tours',
+    tours,
+  });
+});
+
+exports.updateUserData = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(
+    req.user.id,
+    {
+      name: req.body.name,
+      email: req.body.email,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  res.status(200).render('account', {
+    title: 'Your Account',
+    user: updatedUser,
+  });
 });
